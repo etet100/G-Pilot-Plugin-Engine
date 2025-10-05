@@ -15,4 +15,14 @@ public:
     Q_INVOKABLE QString get(const QString ns, const QString &key, const QString &defaultValue = "");
 };
 
+class PluginSettings : public Settings {
+    Q_OBJECT
+public:
+    PluginSettings(const QString ns);
+    Q_INVOKABLE void set(const QString &key, const QString &value);
+    Q_INVOKABLE QString get(const QString &key, const QString &defaultValue = "");
+private:
+    const QString ns;
+};
+
 #endif // SETTINGS_H

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "app.h"
+#include "engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,6 +35,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     void loadLastScript();
-    AppApi app;
+    Engine engine;
+    // App app;
 };
 #endif // MAINWINDOW_H

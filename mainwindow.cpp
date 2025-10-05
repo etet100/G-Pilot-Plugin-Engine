@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QJSEngine>
-#include <QJSValue>
+// #include <QJSEngine>
+// #include <QJSValue>
 #include <QObject>
 #include <QDebug>
 #include <QMessageBox>
@@ -23,7 +23,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // connect(this->ui->runButton, &QPushButton::clicked, this, &MainWindow::runClicked);
 
+    connect(&this->engine.console(), &Console::message, this, [this](Console::Level level, const QString &msg) {
+        switch (level) {
+            case Console::Level::Log:
+                this->addLog("LOG", msg);
+                break;
+            case Console::Level::Warn:
+                this->addLog("WARN", msg);
+                break;
+            case Console::Level::Error:
+                this->addLog("ERROR", msg);
+                break;
+        }
+    });
 
     // QJSEngine engine;
 
@@ -66,36 +80,55 @@ void MainWindow::addLog(const QString &type, const QString &msg)
 
 void MainWindow::runClicked()
 {
-    QJSEngine engine;
+    // QJSEngine engine;
 
-    UI ui;
-    engine.globalObject().setProperty("ui", engine.newQObject(&ui));
-    engine.globalObject().setProperty("u", engine.newQObject(&ui));
+    // // UI ui;
+    // // engine.globalObject().setProperty("ui", engine.newQObject(&ui));
+    // // engine.globalObject().setProperty("u", engine.newQObject(&ui));
 
-    // app
-    engine.globalObject().setProperty("app", engine.newQObject(&this->app));
-    engine.globalObject().setProperty("a", engine.newQObject(&this->app));
+    // QJSValue axisEnum = engine.newObject();
+    // axisEnum.setProperty("X", 0);
+    // axisEnum.setProperty("Y", 1);
+    // axisEnum.setProperty("Z", 2);
 
-    Console console(this);
-    engine.globalObject().setProperty("console", engine.newQObject(&console));
-    engine.globalObject().setProperty("c", engine.newQObject(&console));
+    // engine.globalObject().setProperty("Axis", axisEnum);
 
-    MessageBox msgBox;
-    engine.globalObject().setProperty("msgBox", engine.newQObject(&msgBox));
-    engine.globalObject().setProperty("m", engine.newQObject(&msgBox));
+    // // app
+    // App app;
+    // engine.globalObject().setProperty("app", engine.newQObject(&app));
+    // engine.globalObject().setProperty("a", engine.newQObject(&app));
 
-    Settings settings;
-    engine.globalObject().setProperty("settings", engine.newQObject(&settings));
-    engine.globalObject().setProperty("s", engine.newQObject(&settings));
+    // Console console(this);
+    // engine.globalObject().setProperty("console", engine.newQObject(&console));
+    // engine.globalObject().setProperty("c", engine.newQObject(&console));
 
-    Translations translations;
-    engine.globalObject().setProperty("translations", engine.newQObject(&translations));
-    engine.globalObject().setProperty("t", engine.newQObject(&translations));
+    // MessageBox msgBox;
+    // engine.globalObject().setProperty("msgBox", engine.newQObject(&msgBox));
+    // engine.globalObject().setProperty("m", engine.newQObject(&msgBox));
 
-    QJSValue err = engine.evaluate(this->ui->script->toPlainText());
-    if (err.isError()) {
-        qDebug() << "JS error:" << err.toString();
-    }
+    // Settings settings;
+    // engine.globalObject().setProperty("settings", engine.newQObject(&settings));
+    // engine.globalObject().setProperty("s", engine.newQObject(&settings));
+
+    // Translations translations;
+    // engine.globalObject().setProperty("translations", engine.newQObject(&translations));
+    // engine.globalObject().setProperty("t", engine.newQObject(&translations));
+
+    // Device device;
+    // engine.globalObject().setProperty("device", engine.newQObject(&device));
+    // engine.globalObject().setProperty("d", engine.newQObject(&device));
+
+    // Input input;
+    // engine.globalObject().setProperty("input", engine.newQObject(&input));
+    // engine.globalObject().setProperty("i", engine.newQObject(&input));
+
+    // Jogging jogging;
+    // engine.globalObject().setProperty("jogging", engine.newQObject(&jogging));
+
+    // QJSValue err = engine.evaluate(this->ui->script->toPlainText());
+    // if (err.isError()) {
+    //     qDebug() << "JS error:" << err.toString();
+    // }
 }
 
 void MainWindow::scriptChanged()

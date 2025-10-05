@@ -8,6 +8,7 @@ class Network : public QObject {
 public:
     Network();
     Q_INVOKABLE void connect(QString ip,int port);
+    Q_INVOKABLE void send();
     Q_INVOKABLE void listen(int port);
     Q_INVOKABLE void query(QString url, QStringList params);
     Q_INVOKABLE void post(QString url, QStringList params);

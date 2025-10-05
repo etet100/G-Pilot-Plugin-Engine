@@ -4,6 +4,11 @@ Network::Network() {}
 
 void Network::connect(QString ip, int port) {}
 
+void Network::send()
+{
+    
+}
+
 void Network::listen(int port) {}
 
 void Network::query(QString url, QStringList params) {}

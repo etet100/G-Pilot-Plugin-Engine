@@ -40,6 +40,7 @@ add_executable(JSEngineTest
     ui.h ui.cpp
     ui/edit.h ui/edit.cpp
     apis.h
+    engine.h engine.cpp
 )
 
 target_link_libraries(JSEngineTest PRIVATE Qt5::Widgets Qt5::Core Qt5::Qml)

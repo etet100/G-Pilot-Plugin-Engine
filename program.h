@@ -19,6 +19,7 @@ public:
     Q_INVOKABLE QString lineAt(int index);
     Q_INVOKABLE void close();
     Q_INVOKABLE void save(QString file);
+
     // events
     // onLoaded
     // onClosed

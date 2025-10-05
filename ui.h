@@ -8,11 +8,11 @@ class UI : public QObject {
 public:
     UI();
     // createWindow()
-    Q_INVOKABLE void CreateButton();
-    Q_INVOKABLE void CreateEdit();
-    Q_INVOKABLE void CreateLabel();
-    Q_INVOKABLE void CreateCheckbox();
-    Q_INVOKABLE void CreateRadiobutton();
+    Q_INVOKABLE void createButton();
+    Q_INVOKABLE void createEdit();
+    Q_INVOKABLE void createLabel();
+    Q_INVOKABLE void createCheckbox();
+    Q_INVOKABLE void createRadiobutton();
     Q_INVOKABLE void LoadQml(const QString &file);
     // Button, Edit, Label, Checkbox, Radiobutton, Combobox
 };

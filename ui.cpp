@@ -3,23 +3,23 @@
 
 UI::UI() {}
 
-void UI::CreateButton() {
+void UI::createButton() {
     qDebug() << "Button created!";
 }
 
-void UI::CreateEdit() {
+void UI::createEdit() {
     qDebug() << "Edit created!";
 }
 
-void UI::CreateLabel() {
+void UI::createLabel() {
     qDebug() << "Label created!";
 }
 
-void UI::CreateCheckbox() {
+void UI::createCheckbox() {
     qDebug() << "Checkbox created!";
 }
 
-void UI::CreateRadiobutton() {
+void UI::createRadiobutton() {
     qDebug() << "Radiobutton created!";
 }
 

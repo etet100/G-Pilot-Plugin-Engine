@@ -12,7 +12,7 @@ public:
     Q_INVOKABLE void warn(const QString &title, const QString &msg);
     Q_INVOKABLE void error(const QString &title, const QString &msg);
     Q_INVOKABLE bool confirm(const QString &title, const QString &msg);
-    Q_INVOKABLE bool select(const QString &title, const QStringList &options);
+    Q_INVOKABLE int select(const QString &title, const QStringList &options);
 };
 
 #endif // MESSAGEBOX_H

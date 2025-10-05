@@ -15,11 +15,12 @@ void MessageBox::error(const QString &title, const QString &msg) {
     QMessageBox::critical(nullptr, title, msg);
 }
 
+// ok, cancel
 bool MessageBox::confirm(const QString &title, const QString &msg) {
     return QMessageBox::question(nullptr, title, msg) == QMessageBox::Yes;
 }
 
-bool MessageBox::select(const QString &title, const QStringList &options) {
+int  MessageBox::select(const QString &title, const QStringList &options) {
     QMessageBox msgBox;
     msgBox.setWindowTitle(title);
     msgBox.setText("Select an option:");
