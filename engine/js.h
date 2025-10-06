@@ -1,7 +1,7 @@
 #ifndef JS_H
 #define JS_H
 
-#include "engine.h"
+#include "../engine.h"
 #include <QJSEngine>
 #include <QMainWindow>
 

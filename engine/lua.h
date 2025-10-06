@@ -1,8 +1,8 @@
 #ifndef LUA_H
 #define LUA_H
 
-#include "engine.h"
-#include "sol/sol.hpp"
+#include "../engine.h"
+#include "../sol/sol.hpp"
 #include <QMainWindow>
 
 class Lua : public Engine
