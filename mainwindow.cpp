@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-// #include <QJSEngine>
-// #include <QJSValue>
 #include <QObject>
 #include <QDebug>
 #include <QMessageBox>
@@ -9,6 +7,7 @@
 #include <QSettings>
 #include "settings.h"
 #include "apis.h"
+#include "code_editor/include/KGL/Widgets/QCodeEditor.hpp"
 
 class UIButton {
 };
@@ -16,54 +15,21 @@ class UIButton {
 class UIEdit {
 };
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , jsEngine(this)
+    , luaEngine(this)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    // connect(this->ui->runButton, &QPushButton::clicked, this, &MainWindow::runClicked);
+    ui->verticalLayout_2->addWidget(&editorJS);
+    ui->verticalLayout_2->addWidget(&editorLUA);
+    connect(&editorJS, &QPlainTextEdit::textChanged, this, &MainWindow::scriptChanged);
+    connect(&editorLUA, &QPlainTextEdit::textChanged, this, &MainWindow::scriptChanged);
 
-    connect(&this->engine.console(), &Console::message, this, [this](Console::Level level, const QString &msg) {
-        switch (level) {
-            case Console::Level::Log:
-                this->addLog("LOG", msg);
-                break;
-            case Console::Level::Warn:
-                this->addLog("WARN", msg);
-                break;
-            case Console::Level::Error:
-                this->addLog("ERROR", msg);
-                break;
-        }
-    });
-
-    // QJSEngine engine;
-
-    // // 1) Proste wyrażenie JS
-    // QJSValue res1 = engine.evaluate("1 + 2 + 3");
-    // qDebug() << "1+2+3 =" << res1.toInt(); // oczekiwane: 6
-
-    // // 2) Funkcja JS, wywołana z C++
-    // engine.evaluate("function mul(a,b) { return a * b; }");
-    // QJSValue mul = engine.globalObject().property("mul");
-    // QJSValueList args;
-    // args << 6 << 7;
-    // QJSValue res2 = mul.call(args);
-    // qDebug() << "6*7 =" << res2.toInt(); // oczekiwane: 42
-
-    // // 3) Udostępnienie QObject do JS
-    // Greeter greeter;
-    // engine.globalObject().setProperty("greeter", engine.newQObject(&greeter));
-    // QJSValue res3 = engine.evaluate("greeter.greet('Marek')");
-    // qDebug() << res3.toString(); // oczekiwane: "Cześć, Marek!"
-
-    // // 4) Obsługa błędów JS
-    // QJSValue err = engine.evaluate("throw 'błąd testowy';");
-    // if (err.isError()) {
-    //     qDebug() << "JS error:" << err.toString();
-    // }
+    connect(&this->jsEngine.console(), &Console::message, this, &MainWindow::logSent);
+    connect(&this->luaEngine.console(), &Console::message, this, &MainWindow::logSent);
 
     loadLastScript();
 }
@@ -80,63 +46,22 @@ void MainWindow::addLog(const QString &type, const QString &msg)
 
 void MainWindow::runClicked()
 {
-    // QJSEngine engine;
-
-    // // UI ui;
-    // // engine.globalObject().setProperty("ui", engine.newQObject(&ui));
-    // // engine.globalObject().setProperty("u", engine.newQObject(&ui));
-
-    // QJSValue axisEnum = engine.newObject();
-    // axisEnum.setProperty("X", 0);
-    // axisEnum.setProperty("Y", 1);
-    // axisEnum.setProperty("Z", 2);
-
-    // engine.globalObject().setProperty("Axis", axisEnum);
-
-    // // app
-    // App app;
-    // engine.globalObject().setProperty("app", engine.newQObject(&app));
-    // engine.globalObject().setProperty("a", engine.newQObject(&app));
-
-    // Console console(this);
-    // engine.globalObject().setProperty("console", engine.newQObject(&console));
-    // engine.globalObject().setProperty("c", engine.newQObject(&console));
-
-    // MessageBox msgBox;
-    // engine.globalObject().setProperty("msgBox", engine.newQObject(&msgBox));
-    // engine.globalObject().setProperty("m", engine.newQObject(&msgBox));
-
-    // Settings settings;
-    // engine.globalObject().setProperty("settings", engine.newQObject(&settings));
-    // engine.globalObject().setProperty("s", engine.newQObject(&settings));
-
-    // Translations translations;
-    // engine.globalObject().setProperty("translations", engine.newQObject(&translations));
-    // engine.globalObject().setProperty("t", engine.newQObject(&translations));
-
-    // Device device;
-    // engine.globalObject().setProperty("device", engine.newQObject(&device));
-    // engine.globalObject().setProperty("d", engine.newQObject(&device));
-
-    // Input input;
-    // engine.globalObject().setProperty("input", engine.newQObject(&input));
-    // engine.globalObject().setProperty("i", engine.newQObject(&input));
-
-    // Jogging jogging;
-    // engine.globalObject().setProperty("jogging", engine.newQObject(&jogging));
-
-    // QJSValue err = engine.evaluate(this->ui->script->toPlainText());
-    // if (err.isError()) {
-    //     qDebug() << "JS error:" << err.toString();
-    // }
+    this->jsEngine.execute(editorJS.toPlainText());
+    this->luaEngine.execute(editorLUA.toPlainText());
 }
 
 void MainWindow::scriptChanged()
 {
-    QFile file("last_script.js");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        file.write(this->ui->script->toPlainText().toUtf8());
-        file.close();
+    QFile file1("last_js.js");
+    if (file1.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        file1.write(editorJS.toPlainText().toUtf8());
+        file1.close();
+    }
+
+    QFile file2("last_lua.js");
+    if (file2.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        file2.write(editorLUA.toPlainText().toUtf8());
+        file2.close();
     }
 }
 
@@ -150,14 +75,41 @@ void MainWindow::ev2Clicked()
 
 }
 
-void MainWindow::loadLastScript()
+void MainWindow::logSent(Console::Level level, const QString &msg)
 {
-    QFile file("last_script.js");
-    if (file.open(QIODevice::ReadOnly)) {
-        QByteArray data = file.readAll();
-        this->ui->script->setPlainText(QString::fromUtf8(data));
-        file.close();
+    switch (level) {
+    case Console::Level::Log:
+        this->addLog("LOG", msg);
+        qDebug() << msg;
+
+        break;
+    case Console::Level::Warn:
+        this->addLog("WARN", msg);
+        qWarning() << msg;
+
+        break;
+    case Console::Level::Error:
+        this->addLog("ERROR", msg);
+        qCritical() << msg;
+
+        break;
     }
 }
 
-#include "mainwindow.moc"
+void MainWindow::loadLastScript()
+{
+    QFile file1("last_js.js");
+    if (file1.open(QIODevice::ReadOnly)) {
+        QByteArray data = file1.readAll();
+        editorJS.setPlainText(QString::fromUtf8(data));
+        file1.close();
+    }
+
+    QFile file2("last_lua.js");
+    if (file2.open(QIODevice::ReadOnly)) {
+        QByteArray data = file2.readAll();
+        editorLUA.setPlainText(QString::fromUtf8(data));
+        file2.close();
+    }
+}
+

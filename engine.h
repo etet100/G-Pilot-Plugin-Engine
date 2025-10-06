@@ -2,14 +2,14 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <QJSEngine>
+#include <QMainWindow>
 #include "apis.h"
 
 class Engine
 {
 public:
-    Engine();
-    bool execute(const QString &script);
+    Engine(QMainWindow *mainWindow);
+    virtual bool execute(const QString &script) = 0;
 
     App &app() { return app_; }
     Console &console() { return console_; }
@@ -20,9 +20,9 @@ public:
     Input &input() { return input_; }
     Jogging &jogging() { return jogging_; }
     Visualizer &visualizer() { return visualizer_; }
+    UI &ui() { return ui_; }
 
-private:
-    QJSEngine engine;
+protected:
     App app_;
     Console console_;
     MessageBox msgBox_;
@@ -32,6 +32,9 @@ private:
     Input input_;
     Jogging jogging_;
     Visualizer visualizer_;
+    UI ui_;
+    QMainWindow *mainWindow;
+    virtual void init() = 0;
 };
 
 #endif // ENGINE_H

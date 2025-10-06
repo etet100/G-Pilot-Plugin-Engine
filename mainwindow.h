@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "app.h"
 #include "engine.h"
+#include "code_editor/include/KGL/Widgets/QCodeEditor.hpp"
+#include "engine/js.h"
+#include "engine/lua.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,11 +34,14 @@ public slots:
     void scriptChanged();
     void ev1Clicked();
     void ev2Clicked();
+    void logSent(Console::Level level, const QString &msg);
 
 private:
     Ui::MainWindow *ui;
     void loadLastScript();
-    Engine engine;
-    // App app;
+    Js jsEngine;
+    Lua luaEngine;
+    kgl::QCodeEditor editorJS;
+    kgl::QCodeEditor editorLUA;
 };
 #endif // MAINWINDOW_H

@@ -14,4 +14,12 @@ public:
     Q_INVOKABLE void post(QString url, QStringList params);
 };
 
+class TCP : public QObject {
+    Q_OBJECT
+};
+
+class HTTP : public TCP {
+    Q_OBJECT
+};
+
 #endif // NETWORK_H

@@ -1,7 +1,59 @@
 #include "ui.h"
 #include <QDebug>
+#include <QDialog>
+#include <QFile>
+#include <QtUiTools/QUiLoader>
+#include <QLayout>
+#include <QHBoxLayout>
 
-UI::UI() {}
+UI::UI(QMainWindow *mainWindow) : mainWindow(mainWindow) {}
+
+void UI::loadUiFile(QString name)
+{
+    QFile file(":/test/" + name);
+    if (!file.open(QFile::ReadOnly)) {
+        qFatal("Cannot open resource file");
+    }
+
+    QUiLoader loader;
+    QWidget *widget = loader.load(&file);
+
+    file.close();
+
+    if (!widget) {
+        qFatal("Cannot load UI file");
+    }
+
+    elements.append(widget);
+}
+
+void UI::loadUiFile2(std::string name)
+{
+    loadUiFile(QString::fromStdString(name));
+}
+
+void UI::createWindow(QString title)
+{
+    QLayout *l = new QHBoxLayout();
+    l->addWidget(elements[0]);
+    // l->addWidget(elements[0]);
+    l->update();
+
+    QDialog *dialog = new QDialog(mainWindow);
+    dialog->setWindowTitle(title);
+    dialog->setMinimumSize(QSize(200, 100));
+    dialog->setModal(true);
+    dialog->setLayout(l);
+    dialog->adjustSize();
+    dialog->show();
+
+    elements.append(dialog);
+}
+
+void UI::createWindow2(std::string title)
+{
+    createWindow(QString::fromStdString(title));
+}
 
 void UI::createButton() {
     qDebug() << "Button created!";

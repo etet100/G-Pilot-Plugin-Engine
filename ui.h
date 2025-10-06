@@ -2,12 +2,18 @@
 #define UI_H
 
 #include <QObject>
+#include <QMainWindow>
 
 class UI : public QObject {
     Q_OBJECT
+
 public:
-    UI();
-    // createWindow()
+    UI(QMainWindow *mainWindow);
+
+    Q_INVOKABLE void loadUiFile(QString name);
+    void loadUiFile2(std::string name);
+    Q_INVOKABLE void createWindow(QString title);
+    void createWindow2(std::string title);
     Q_INVOKABLE void createButton();
     Q_INVOKABLE void createEdit();
     Q_INVOKABLE void createLabel();
@@ -15,5 +21,10 @@ public:
     Q_INVOKABLE void createRadiobutton();
     Q_INVOKABLE void LoadQml(const QString &file);
     // Button, Edit, Label, Checkbox, Radiobutton, Combobox
+
+private:
+    QList<QWidget*> elements;
+    QMainWindow *mainWindow;
+
 };
 #endif // UI_H
