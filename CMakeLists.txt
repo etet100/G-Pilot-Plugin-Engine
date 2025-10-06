@@ -64,11 +64,11 @@ set_target_properties(lua PROPERTIES
 # --- code_editor ---
 file(GLOB_RECURSE CODE_EDITOR_SRC
     code_editor/src/*.cpp
-    code_editor/include/*.h
+    code_editor/include/*.hpp
 )
 
 add_library(code_editor STATIC ${CODE_EDITOR_SRC})
-set_target_properties(code_editor PROPERTIES AUTOMOC ON AUTOUIC OFF AUTORCC OFF)
+set_target_properties(code_editor PROPERTIES AUTOMOC ON AUTOUIC ON AUTORCC OFF)
 target_include_directories(code_editor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include)
 target_link_libraries(code_editor PUBLIC Qt5::Core Qt5::Widgets Qt5::Gui)
 set_target_properties(code_editor PROPERTIES POSITION_INDEPENDENT_CODE ON)
@@ -102,6 +102,7 @@ target_link_libraries(JSEngineTest
     PRIVATE
         lua
         code_editor
+    PUBLIC
         Qt5::Widgets
         Qt5::Core
         Qt5::Qml
