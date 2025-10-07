@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QString>
 
-class MessageBox : public QObject {
+class MsgBox : public QObject {
     Q_OBJECT
 public:
-    MessageBox();
+    MsgBox();
     Q_INVOKABLE void info(const QString &title, const QString &msg);
     void info2(std::string title, std::string msg);
     Q_INVOKABLE void warn(const QString &title, const QString &msg);

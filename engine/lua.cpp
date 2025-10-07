@@ -15,6 +15,21 @@ bool Lua::execute(const QString &script)
     } catch (const sol::error& e) {
         console_.error("LUA error: " + QString(e.what()));
     }
+
+    return true;
+}
+
+bool Lua::supported(const QString &script)
+{
+    int score = 0;
+
+    if (script.contains(QRegularExpression("--\\[\\["))) score += 5;
+    if (script.contains(QRegularExpression("(?m)(^|\\s)--"))) score += 4;
+    if (script.contains(QRegularExpression("\\blocal\\b"))) score += 5;
+    if (script.contains(QRegularExpression("\\bend\\b"))) score += 5;
+    if (script.contains(QRegularExpression("\\bnil\\b"))) score += 3;
+
+    return score > 3; // próg heurystyczny
 }
 
 void Lua::init()
@@ -29,12 +44,12 @@ void Lua::init()
     lua["console"] = &console_;
     lua["c"] = &console_;
 
-    lua.new_usertype<MessageBox>("msgBox",
-                                 "info", &MessageBox::info2,
-                                 "warn", &MessageBox::warn2,
-                                 "error", &MessageBox::error2,
-                                 "confirm", &MessageBox::confirm2,
-                                 "select", &MessageBox::select2
+    lua.new_usertype<MsgBox>("msgBox",
+                                 "info", &MsgBox::info2,
+                                 "warn", &MsgBox::warn2,
+                                 "error", &MsgBox::error2,
+                                 "confirm", &MsgBox::confirm2,
+                                 "select", &MsgBox::select2
                                  );
 
     lua["msgBox"] = &msgBox_;

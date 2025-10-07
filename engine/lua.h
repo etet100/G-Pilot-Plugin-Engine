@@ -10,6 +10,7 @@ class Lua : public Engine
 public:
     Lua(QMainWindow *mainWindow);
     bool execute(const QString &script) override;
+    bool supported(const QString &script) override;
 
 protected:
     void init() override;

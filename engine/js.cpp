@@ -17,6 +17,22 @@ bool Js::execute(const QString &script)
 
         return false;
     }
+
+    return true;
+}
+
+bool Js::supported(const QString &script)
+{
+    int score = 0;
+
+    if (script.contains("//")) score += 4;
+    if (script.contains(QRegularExpression("\\b(const|let|var)\\b"))) score += 5;
+    if (script.contains("=>")) score += 6;
+    if (script.contains(QRegularExpression("\\b(undefined|null)\\b"))) score += 3;
+    if (script.contains("console.log")) score += 4;
+    score += script.count('{') + script.count('}') + script.count(';');
+
+    return score > 3;
 }
 
 void Js::init()

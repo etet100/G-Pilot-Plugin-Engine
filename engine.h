@@ -10,10 +10,14 @@ class Engine
 public:
     Engine(QMainWindow *mainWindow);
     virtual bool execute(const QString &script) = 0;
+    // Check if the script is supported by this engine, by keywords
+    // It is not a full proof way, but a simple heuristic!
+    // I'm going to add some metadata (like @engine js) in the future
+    virtual bool supported(const QString &script) = 0;
 
     App &app() { return app_; }
     Console &console() { return console_; }
-    MessageBox &msgBox() { return msgBox_; }
+    MsgBox &msgBox() { return msgBox_; }
     Settings &settings() { return settings_; }
     Translations &translations() { return translations_; }
     Device &device() { return device_; }
@@ -25,7 +29,7 @@ public:
 protected:
     App app_;
     Console console_;
-    MessageBox msgBox_;
+    MsgBox msgBox_;
     Settings settings_;
     Translations translations_;
     Device device_;
