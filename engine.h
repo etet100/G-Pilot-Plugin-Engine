@@ -2,13 +2,12 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <QMainWindow>
 #include "apis.h"
 
 class Engine
 {
 public:
-    Engine(QMainWindow *mainWindow);
+    Engine(QWidget *mainWindow);
     virtual bool execute(const QString &script) = 0;
     // Check if the script is supported by this engine, by keywords
     // It is not a full proof way, but a simple heuristic!
@@ -37,7 +36,7 @@ protected:
     Jogging jogging_;
     Visualizer visualizer_;
     UI ui_;
-    QMainWindow *mainWindow;
+    QWidget *mainWindow;
     virtual void init() = 0;
 };
 

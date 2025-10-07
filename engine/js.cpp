@@ -4,7 +4,7 @@
 
 #include "js.h"
 
-Js::Js(QMainWindow *mainWindow) : Engine(mainWindow)
+Js::Js(QWidget *mainWindow) : Engine(mainWindow)
 {
     init();
 }

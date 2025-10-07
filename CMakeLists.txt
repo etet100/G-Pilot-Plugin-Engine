@@ -104,10 +104,11 @@ set_target_properties(lua PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF POSITIO
 target_include_directories(sol INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/sol)
 
 # --- Main library ---
-add_library(pluginengine STATIC
+add_library(pluginengine
     engine.h engine.cpp
-    engine/js.cpp
-    engine/lua.cpp
+    engine/js.h engine/js.cpp
+    engine/lua.h engine/lua.cpp
+    engine/luaimpl.h engine/luaimpl.cpp
     app.h input.h input.cpp
     settings.h settings.cpp
     messagebox.h messagebox.cpp
@@ -121,6 +122,7 @@ add_library(pluginengine STATIC
     ui.h ui.cpp
     ui/edit.h ui/edit.cpp
     apis.h
+    enginecontainer.h enginecontainer.cpp
 )
 target_include_directories(pluginengine PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/lua/src
@@ -128,7 +130,8 @@ target_include_directories(pluginengine PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_link_libraries(pluginengine PRIVATE lua sol code_editor Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
+set_target_properties(lua PROPERTIES AUTOMOC ON AUTOUIC ON AUTORCC ON POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(pluginengine PRIVATE lua Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
 target_precompile_headers(pluginengine PUBLIC ${PCH_HEADER})
 
 # --- Main executable ---
@@ -138,6 +141,7 @@ add_executable(JSEngineTest
     engine.h engine.cpp
     engine/js.cpp
     engine/lua.cpp
+    engine/luaimpl.cpp
     app.h input.h input.cpp
     settings.h settings.cpp
     messagebox.h messagebox.cpp
@@ -151,6 +155,7 @@ add_executable(JSEngineTest
     ui.h ui.cpp
     ui/edit.h ui/edit.cpp
     apis.h
+    enginecontainer.h enginecontainer.cpp
 )
 target_include_directories(JSEngineTest PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/lua/src

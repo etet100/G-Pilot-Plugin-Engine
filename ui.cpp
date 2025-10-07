@@ -6,7 +6,7 @@
 #include <QLayout>
 #include <QHBoxLayout>
 
-UI::UI(QMainWindow *mainWindow) : mainWindow(mainWindow) {}
+UI::UI(QWidget *mainWindow) : mainWindow(mainWindow) {}
 
 void UI::loadUiFile(QString name)
 {

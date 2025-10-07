@@ -1,4 +1,4 @@
 #include "engine.h"
 
-Engine::Engine(QMainWindow *mainWindow) : mainWindow(mainWindow), ui_(mainWindow) {
+Engine::Engine(QWidget *mainWindow) : mainWindow(mainWindow), ui_(mainWindow) {
 }

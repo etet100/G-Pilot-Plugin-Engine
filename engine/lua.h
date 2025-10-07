@@ -2,13 +2,15 @@
 #define LUA_H
 
 #include "../engine.h"
-#include "../sol/sol.hpp"
 #include <QMainWindow>
+
+class LuaImpl;
 
 class Lua : public Engine
 {
 public:
-    Lua(QMainWindow *mainWindow);
+    Lua(QWidget *mainWindow);
+    ~Lua();
     bool execute(const QString &script) override;
     bool supported(const QString &script) override;
 
@@ -16,7 +18,7 @@ protected:
     void init() override;
 
 private:
-    sol::state lua;
+    LuaImpl* impl;
 };
 
 #endif // LUA_H

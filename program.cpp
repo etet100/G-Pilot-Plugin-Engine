@@ -6,21 +6,21 @@
 
 Program::Program() {}
 
-int Program::load(QString file) {}
+int Program::load(QString file) { return 0; }
 
-int Program::loadString(QString str) {}
+int Program::loadString(QString str) { return 0; }
 
-QString Program::path() {}
+QString Program::path() { return ""; }
 
-bool Program::isLoaded() {}
+bool Program::isLoaded() { return false; }
 
-QPoint Program::lowerBounds() {}
+QPoint Program::lowerBounds() { return QPoint(0,0); }
 
-QPoint Program::upperBounds() {}
+QPoint Program::upperBounds() { return QPoint(0,0); }
 
-int Program::lineCount() {}
+int Program::lineCount() { return 0; }
 
-QString Program::lineAt(int index) {}
+QString Program::lineAt(int index) { return ""; }
 
 void Program::close() {}
 

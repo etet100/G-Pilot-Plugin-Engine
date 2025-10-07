@@ -2,13 +2,12 @@
 #define UI_H
 
 #include <QObject>
-#include <QMainWindow>
 
 class UI : public QObject {
     Q_OBJECT
 
 public:
-    UI(QMainWindow *mainWindow);
+    UI(QWidget *mainWindow);
 
     Q_INVOKABLE void loadUiFile(QString name);
     void loadUiFile2(std::string name);
@@ -24,7 +23,7 @@ public:
 
 private:
     QList<QWidget*> elements;
-    QMainWindow *mainWindow;
+    QWidget *mainWindow;
 
 };
 #endif // UI_H

@@ -3,12 +3,11 @@
 
 #include "../engine.h"
 #include <QJSEngine>
-#include <QMainWindow>
 
 class Js : public Engine
 {
 public:
-    Js(QMainWindow *mainWindow);
+    Js(QWidget *mainWindow);
     bool execute(const QString &script) override;
     bool supported(const QString &script) override;
 
