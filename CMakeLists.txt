@@ -104,7 +104,7 @@ set_target_properties(lua PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF POSITIO
 target_include_directories(sol INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/sol)
 
 # --- Main library ---
-add_library(pluginengine
+add_library(pluginengine SHARED
     engine.h engine.cpp
     engine/js.h engine/js.cpp
     engine/lua.h engine/lua.cpp
@@ -130,43 +130,46 @@ target_include_directories(pluginengine PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
-set_target_properties(lua PROPERTIES AUTOMOC ON AUTOUIC ON AUTORCC ON POSITION_INDEPENDENT_CODE ON)
+set_target_properties(lua sol PROPERTIES AUTOMOC ON AUTOUIC ON AUTORCC ON POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(pluginengine PRIVATE lua Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
 target_precompile_headers(pluginengine PUBLIC ${PCH_HEADER})
+target_compile_definitions(pluginengine PRIVATE PLUGINENGINE_LIBRARY)
 
 # --- Main executable ---
-add_executable(JSEngineTest
-    main.cpp
-    mainwindow.cpp mainwindow.h mainwindow.ui
-    engine.h engine.cpp
-    engine/js.cpp
-    engine/lua.cpp
-    engine/luaimpl.cpp
-    app.h input.h input.cpp
-    settings.h settings.cpp
-    messagebox.h messagebox.cpp
-    console.h console.cpp
-    translations.h translations.cpp
-    jogging.h jogging.cpp
-    network.h network.cpp
-    visualizer.h visualizer.cpp
-    device.h device.cpp
-    program.h program.cpp
-    ui.h ui.cpp
-    ui/edit.h ui/edit.cpp
-    apis.h
-    enginecontainer.h enginecontainer.cpp
-)
-target_include_directories(JSEngineTest PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/lua/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/sol
-    ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-target_link_libraries(JSEngineTest PRIVATE lua sol code_editor Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
-target_precompile_headers(JSEngineTest PUBLIC ${PCH_HEADER})
+# add_executable(JSEngineTest
+#     main.cpp
+#     mainwindow.cpp mainwindow.h mainwindow.ui
+#     engine.h engine.cpp
+#     engine/js.cpp
+#     engine/lua.cpp
+#     engine/luaimpl.cpp
+#     app.h input.h input.cpp
+#     settings.h settings.cpp
+#     messagebox.h messagebox.cpp
+#     console.h console.cpp
+#     translations.h translations.cpp
+#     jogging.h jogging.cpp
+#     network.h network.cpp
+#     visualizer.h visualizer.cpp
+#     device.h device.cpp
+#     program.h program.cpp
+#     ui.h ui.cpp
+#     ui/edit.h ui/edit.cpp
+#     apis.h
+#     enginecontainer.h enginecontainer.cpp
+# )
+# target_include_directories(JSEngineTest PRIVATE
+#     ${CMAKE_CURRENT_SOURCE_DIR}/lua/src
+#     ${CMAKE_CURRENT_SOURCE_DIR}/sol
+#     ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
+#     ${CMAKE_CURRENT_SOURCE_DIR}
+# )
+# target_link_libraries(JSEngineTest PRIVATE lua sol code_editor Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
+# target_precompile_headers(JSEngineTest PUBLIC ${PCH_HEADER})
 
 # --- Qt6 finalization (opcjonalnie) ---
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(JSEngineTest)
 endif()
+
+install(TARGETS pluginengine RUNTIME DESTINATION .)

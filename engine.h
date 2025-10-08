@@ -3,8 +3,9 @@
 #define ENGINE_H
 
 #include "apis.h"
+#include "export.h"
 
-class Engine
+class PLUGINENGINE_EXPORT Engine
 {
 public:
     Engine(QWidget *mainWindow);

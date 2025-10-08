@@ -4,7 +4,13 @@
 #include <QObject>
 #include <QString>
 
-class Translations : public QObject {
+#if defined(PLUGINENGINE_LIBRARY)
+#define PLUGINENGINE_EXPORT Q_DECL_EXPORT
+#else
+#define PLUGINENGINE_EXPORT Q_DECL_IMPORT
+#endif
+
+class PLUGINENGINE_EXPORT Translations : public QObject {
     Q_OBJECT
 public:
     Translations();

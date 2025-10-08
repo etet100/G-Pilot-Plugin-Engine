@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QPoint>
+#include "export.h"
 
-class Program : public QObject {
+class PLUGINENGINE_EXPORT Program : public QObject {
     Q_OBJECT
 public:
     Program();

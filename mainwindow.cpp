@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&editorJS, &QPlainTextEdit::textChanged, this, &MainWindow::scriptChanged);
     connect(&editorLUA, &QPlainTextEdit::textChanged, this, &MainWindow::scriptChanged);
 
-    connect(&this->jsEngine.console(), &Console::message, this, &MainWindow::logSent);
-    connect(&this->luaEngine.console(), &Console::message, this, &MainWindow::logSent);
+    connect(this->jsEngine.console(), &Console::message, this, &MainWindow::logSent);
+    connect(this->luaEngine.console(), &Console::message, this, &MainWindow::logSent);
 
     loadLastScript();
 }

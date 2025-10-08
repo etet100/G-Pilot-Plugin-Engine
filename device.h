@@ -2,9 +2,11 @@
 #define DEVICE_H
 
 #include <QObject>
+#include "export.h"
 
-class Device : public QObject {
+class PLUGINENGINE_EXPORT Device : public QObject {
     Q_OBJECT
+
 public:
     Device();
 

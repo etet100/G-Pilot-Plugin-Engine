@@ -2,8 +2,9 @@
 #define UI_H
 
 #include <QObject>
+#include "export.h"
 
-class UI : public QObject {
+class PLUGINENGINE_EXPORT UI : public QObject {
     Q_OBJECT
 
 public:

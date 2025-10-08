@@ -6,8 +6,9 @@
 #define SETTINGS_H
 
 #include <QObject>
+#include "export.h"
 
-class Settings : public QObject {
+class PLUGINENGINE_EXPORT Settings : public QObject {
     Q_OBJECT
 public:
     Settings();
@@ -15,7 +16,7 @@ public:
     Q_INVOKABLE QString get(const QString ns, const QString &key, const QString &defaultValue = "");
 };
 
-class PluginSettings : public Settings {
+class PLUGINENGINE_EXPORT PluginSettings : public Settings {
     Q_OBJECT
 public:
     PluginSettings(const QString ns);

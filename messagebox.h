@@ -2,10 +2,11 @@
 #define MESSAGEBOX_H
 
 #include <QObject>
-#include <QString>
+#include "export.h"
 
-class MsgBox : public QObject {
+class PLUGINENGINE_EXPORT MsgBox : public QObject {
     Q_OBJECT
+
 public:
     MsgBox();
     Q_INVOKABLE void info(const QString &title, const QString &msg);

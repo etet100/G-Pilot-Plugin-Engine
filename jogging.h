@@ -2,13 +2,14 @@
 #define JOGGING_H
 
 #include <QObject>
+#include "export.h"
 
 /// @class Jogging
 /// @brief Provides methods to control jogging operations
 ///
 /// @lua jogging
 /// @js jogging
-class Jogging : public QObject {
+class PLUGINENGINE_EXPORT Jogging : public QObject {
     Q_OBJECT
 public:
     Jogging();

@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QJSEngine>
+#include "export.h"
 
-class Input : public QObject {
+class PLUGINENGINE_EXPORT Input : public QObject {
     Q_OBJECT
 public:
     // form elements, return field id

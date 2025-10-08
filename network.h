@@ -2,8 +2,9 @@
 #define NETWORK_H
 
 #include <QObject>
+#include "export.h"
 
-class Network : public QObject {
+class PLUGINENGINE_EXPORT Network : public QObject {
     Q_OBJECT
 public:
     Network();
@@ -14,11 +15,11 @@ public:
     Q_INVOKABLE void post(QString url, QStringList params);
 };
 
-class TCP : public QObject {
+class PLUGINENGINE_EXPORT TCP : public QObject {
     Q_OBJECT
 };
 
-class HTTP : public TCP {
+class PLUGINENGINE_EXPORT HTTP : public TCP {
     Q_OBJECT
 };
 

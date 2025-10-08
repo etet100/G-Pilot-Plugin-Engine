@@ -2,9 +2,11 @@
 #define CONSOLE_H
 
 #include <QObject>
+#include "export.h"
 
-class Console : public QObject {
+class PLUGINENGINE_EXPORT Console : public QObject {
     Q_OBJECT
+
 public:
     enum Level {
         Log,
@@ -12,7 +14,7 @@ public:
         Error
     };
 
-    explicit Console(QObject *parent = nullptr);
+    Console(QObject *parent = nullptr);
     Q_INVOKABLE void log(const QString &msg);
     void log2(const std::string &msg);
     Q_INVOKABLE void warn(const QString &msg);

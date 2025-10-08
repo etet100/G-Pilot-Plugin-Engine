@@ -4,8 +4,9 @@
 #include <QObject>
 #include <QMap>
 #include <QJSValue>
+#include "export.h"
 
-class App : public QObject {
+class PLUGINENGINE_EXPORT App : public QObject {
     Q_OBJECT
 public:
     App(QObject *parent = nullptr) : QObject(parent) {}

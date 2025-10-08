@@ -8,8 +8,9 @@
 #include "engine.h"
 #include "engine/js.h"
 #include "engine/lua.h"
+#include "export.h"
 
-class EngineContainer
+class PLUGINENGINE_EXPORT EngineContainer
 {
 public:
     EngineContainer(QWidget *mainWindow);
