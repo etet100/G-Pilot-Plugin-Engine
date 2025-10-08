@@ -136,9 +136,9 @@ target_precompile_headers(pluginengine PUBLIC ${PCH_HEADER})
 target_compile_definitions(pluginengine PRIVATE PLUGINENGINE_LIBRARY)
 
 # --- Main executable ---
-# add_executable(JSEngineTest
-#     main.cpp
-#     mainwindow.cpp mainwindow.h mainwindow.ui
+add_executable(JSEngineTest
+    main.cpp
+    mainwindow.cpp mainwindow.h mainwindow.ui
 #     engine.h engine.cpp
 #     engine/js.cpp
 #     engine/lua.cpp
@@ -157,15 +157,13 @@ target_compile_definitions(pluginengine PRIVATE PLUGINENGINE_LIBRARY)
 #     ui/edit.h ui/edit.cpp
 #     apis.h
 #     enginecontainer.h enginecontainer.cpp
-# )
-# target_include_directories(JSEngineTest PRIVATE
-#     ${CMAKE_CURRENT_SOURCE_DIR}/lua/src
-#     ${CMAKE_CURRENT_SOURCE_DIR}/sol
-#     ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
-#     ${CMAKE_CURRENT_SOURCE_DIR}
-# )
-# target_link_libraries(JSEngineTest PRIVATE lua sol code_editor Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
-# target_precompile_headers(JSEngineTest PUBLIC ${PCH_HEADER})
+)
+target_include_directories(JSEngineTest PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/code_editor/include
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(JSEngineTest PRIVATE lua sol code_editor pluginengine Qt5::Widgets Qt5::Core Qt5::Qml Qt5::UiTools)
+target_precompile_headers(JSEngineTest PUBLIC ${PCH_HEADER})
 
 # --- Qt6 finalization (opcjonalnie) ---
 if(QT_VERSION_MAJOR EQUAL 6)

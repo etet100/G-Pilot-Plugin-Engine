@@ -5,8 +5,7 @@
 #include "lua.h"
 #include "luaimpl.h"
 
-Lua::Lua(QWidget *mainWindow) : Engine(mainWindow), impl(new LuaImpl(mainWindow)) {
-    init();
+Lua::Lua(QWidget *mainWindow) : Engine(mainWindow), impl(new LuaImpl(mainWindow, this)) {
 }
 
 Lua::~Lua()

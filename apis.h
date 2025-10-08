@@ -14,10 +14,10 @@ enum Axis {
     C = 5
 };
 
-#include "ui.h"
-#include "app.h"
 #include "device.h"
 #include "input.h"
+#include "ui.h"
+#include "app.h"
 #include "program.h"
 #include "network.h"
 #include "settings.h"

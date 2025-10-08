@@ -2,18 +2,20 @@
 #define LUAIMPL_H
 
 #include "../sol/sol.hpp"
+#include "lua.h"
 #include "../engine.h"
 
-class LuaImpl : public Engine
+class LuaImpl
 {
 public:
-    LuaImpl(QWidget *mainWindow);
+    LuaImpl(QWidget *mainWindow, Lua *lua);
     bool execute(const QString &script);
     bool supported(const QString &script);
     void init();
 
 private:
-    sol::state lua;
+    Lua *lua;
+    sol::state luaState;
 };
 
 #endif // LUAIMPL_H

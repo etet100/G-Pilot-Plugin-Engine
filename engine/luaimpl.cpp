@@ -1,6 +1,3 @@
-// This file is a part of "G-Pilot (formerly Candle)" application.
-// Copyright 2015-2021 Hayrullin Denis Ravilevich
-// Copyright 2025 BTS
 
 #include "luaimpl.h"
 
@@ -15,16 +12,16 @@ public:
     }
 };
 
-LuaImpl::LuaImpl(QWidget *mainWindow) : Engine(mainWindow) {
+LuaImpl::LuaImpl(QWidget *mainWindow, Lua *lua) : lua(lua) {
     init();
 }
 
 bool LuaImpl::execute(const QString &script)
 {
     try {
-        lua.script(script.toStdString());
+        luaState.script(script.toStdString());
     } catch (const sol::error& e) {
-        console_.error("LUA error: " + QString(e.what()));
+        lua->console_.error("LUA error: " + QString(e.what()));
     }
 
     return true;
@@ -45,36 +42,25 @@ bool LuaImpl::supported(const QString &script)
 
 void LuaImpl::init()
 {
-    lua.open_libraries(sol::lib::base, sol::lib::string, sol::lib::math, sol::lib::table);
+    luaState.open_libraries(sol::lib::base, sol::lib::string, sol::lib::math, sol::lib::table);
 
-    // Test test;
+    luaState.new_usertype<MsgBox>("MsgBox",
+                              "info", &MsgBox::info2,
+                              "warn", &MsgBox::warn2,
+                              "error", &MsgBox::error2,
+                              "confirm", &MsgBox::confirm2,
+                              "select", &MsgBox::select2
+                              );
+    luaState["msgBox"] = &lua->msgBox_;
+    luaState["m"] = &lua->msgBox_;
 
-    // lua["m"] = &msgBox_;
-    lua.new_usertype<Console>("Console",
-            sol::constructors<Console()>(),
-            "log", &Console::log2
-        );
-    lua["c"] = sol::make_reference(lua, &console_);
-
-    // lua.script(R"(
-    //     c:a()
-    //     c:b()
-    // )");
-
-    // lua["MsgBox"]["info"] = &MsgBox::info2;
-    // lua["MsgBox"]["warn"] = &MsgBox::warn2;
-    // lua["MsgBox"]["error"] = &MsgBox::error2;
-    // lua["MsgBox"]["confirm"] = &MsgBox::confirm2;
-    // lua["MsgBox"]["select"] = &MsgBox::select2;
-
-
-    // lua["c"] = &console_;
-    // lua.new_usertype<Console>("Console",
-    //                           "log", &Console::log2,
-    //                           "warn", &Console::warn2,
-    //                           "error", &Console::error2
-    //                           );
-
+    luaState.new_usertype<Console>("Console",
+                              "log", &Console::log2,
+                              "warn", &Console::warn2,
+                              "error", &Console::error2
+                              );
+    luaState["c"] = &lua->console_;
+    luaState["console"] = &lua->console_;
 
     // lua.new_usertype<Settings>("settings",
     //                            "get", &Settings::get,

@@ -2,11 +2,12 @@
 #define LUA_H
 
 #include "../engine.h"
+#include "../export.h"
 #include <QMainWindow>
 
 class LuaImpl;
 
-class Lua : public Engine
+class PLUGINENGINE_EXPORT Lua : public Engine
 {
 public:
     Lua(QWidget *mainWindow);
@@ -19,6 +20,8 @@ protected:
 
 private:
     LuaImpl* impl;
+
+friend class LuaImpl;
 };
 
 #endif // LUA_H

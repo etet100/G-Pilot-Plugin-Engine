@@ -2,9 +2,10 @@
 #define JS_H
 
 #include "../engine.h"
+#include "../export.h"
 #include <QJSEngine>
 
-class Js : public Engine
+class PLUGINENGINE_EXPORT Js : public Engine
 {
 public:
     Js(QWidget *mainWindow);
